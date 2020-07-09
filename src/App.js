@@ -1,25 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
+import ApolloClient from 'apollo-boost';
+import {ApolloProvider} from 'react-apollo';
+import Profile from './components/profile';
 import './App.css';
+
+const client = new ApolloClient({
+  uri: "http://localhost:4000/v1",
+  onError: ({networkError , graphQLErrors}) => {
+    console.log('graphQLErrors',graphQLErrors);
+    console.log('networkError',networkError);
+  }
+})
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <div className="App">
+          <Profile userId="5f0729865561600a2c5a2f97" />
+      </div>
+    </ApolloProvider>
   );
 }
 
